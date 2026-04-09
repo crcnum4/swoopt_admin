@@ -21,6 +21,7 @@ function getPageTitle(pathname: string): string {
   // Dynamic route patterns
   if (/^\/requests\/[^/]+\/find-provider$/.test(pathname)) return 'Find Provider';
   if (/^\/requests\/[^/]+$/.test(pathname)) return 'Request Detail';
+  if (pathname === '/providers/onboard') return 'Onboard Provider';
   if (/^\/providers\/[^/]+$/.test(pathname)) return 'Provider Detail';
   if (/^\/users\/[^/]+$/.test(pathname)) return 'User Detail';
 
