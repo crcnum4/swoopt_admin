@@ -14,7 +14,7 @@ export function StepCreateUser({ state, update, onNext }: Props) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const canSubmit = state.userEmail.trim() && state.temporaryPassword.length >= 8;
+  const canSubmit = state.userFirstName.trim() && state.userLastName.trim() && state.userEmail.trim() && state.temporaryPassword.length >= 8;
 
   const handleSubmit = async () => {
     if (state.createdUserId) {
@@ -26,6 +26,8 @@ export function StepCreateUser({ state, update, onNext }: Props) {
     setLoading(true);
     try {
       const { data, error: apiError } = await api.post<{ _id: string }>('/admin/users', {
+        firstName: state.userFirstName.trim(),
+        lastName: state.userLastName.trim(),
         email: state.userEmail.trim(),
         phone: state.userPhone.trim() || undefined,
         temporaryPassword: state.temporaryPassword,
@@ -54,6 +56,29 @@ export function StepCreateUser({ state, update, onNext }: Props) {
           <p className="text-xs text-gray-500 mt-1">Click Next to continue, or clear the draft to start over.</p>
         </div>
       )}
+
+      <div className="flex gap-3">
+        <div className="flex-1">
+          <label className="block text-xs font-medium text-gray-500 mb-1">First Name *</label>
+          <input
+            value={state.userFirstName}
+            onChange={(e) => update({ userFirstName: e.target.value })}
+            disabled={!!state.createdUserId}
+            placeholder="John"
+            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400 disabled:bg-gray-50 disabled:text-gray-500"
+          />
+        </div>
+        <div className="flex-1">
+          <label className="block text-xs font-medium text-gray-500 mb-1">Last Name *</label>
+          <input
+            value={state.userLastName}
+            onChange={(e) => update({ userLastName: e.target.value })}
+            disabled={!!state.createdUserId}
+            placeholder="Smith"
+            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400 disabled:bg-gray-50 disabled:text-gray-500"
+          />
+        </div>
+      </div>
 
       <div>
         <label className="block text-xs font-medium text-gray-500 mb-1">Email *</label>

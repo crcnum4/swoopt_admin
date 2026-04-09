@@ -67,7 +67,8 @@ export function StepReview({ state, update, onNext }: Props) {
       <div className="rounded-lg border border-gray-200 divide-y divide-gray-100">
         <div className="px-4 py-3">
           <p className="text-xs font-medium text-gray-500">User</p>
-          <p className="text-sm text-gray-800">{state.userEmail}</p>
+          <p className="text-sm text-gray-800">{state.userFirstName} {state.userLastName}</p>
+          <p className="text-xs text-gray-500">{state.userEmail}</p>
           {state.userPhone && <p className="text-xs text-gray-500">{state.userPhone}</p>}
         </div>
         <div className="px-4 py-3">

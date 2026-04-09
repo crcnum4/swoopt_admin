@@ -6,6 +6,8 @@ export interface OnboardingState {
   currentStep: number;
   serviceRequestId: string | null;
   // Step 1
+  userFirstName: string;
+  userLastName: string;
   userEmail: string;
   userPhone: string;
   temporaryPassword: string;
@@ -42,6 +44,8 @@ export interface OnboardingState {
 const initialState: OnboardingState = {
   currentStep: 0,
   serviceRequestId: null,
+  userFirstName: '',
+  userLastName: '',
   userEmail: '',
   userPhone: '',
   temporaryPassword: '',
