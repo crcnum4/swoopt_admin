@@ -56,6 +56,19 @@ export function truncateId(id: string, length = 8): string {
 }
 
 /**
+ * Extract a display label from a field that may be a plain ID string
+ * or a populated object (e.g. { _id, email } or { _id, name }).
+ */
+export function displayRef(
+  value: string | { _id: string; email?: string; name?: string } | undefined | null,
+  field: 'email' | 'name' = 'email',
+): string {
+  if (!value) return '—';
+  if (typeof value === 'string') return truncateId(value, 12);
+  return (value as Record<string, string>)[field] || value._id;
+}
+
+/**
  * Status color mapping for ServiceRequestStatus.
  */
 const STATUS_COLORS: Record<string, { bg: string; text: string }> = {

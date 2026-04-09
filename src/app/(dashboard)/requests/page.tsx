@@ -7,7 +7,7 @@ import { DataTable, type Column } from '@/components/data/data-table';
 import { StatusBadge } from '@/components/data/status-badge';
 import { FilterTabs } from '@/components/data/filter-tabs';
 import { SearchInput } from '@/components/data/search-input';
-import { truncateId, formatRelativeTime } from '@/lib/utils';
+import { truncateId, formatRelativeTime, displayRef } from '@/lib/utils';
 import type { ServiceRequest } from '@/types/service-request';
 
 type StatusGroup = 'active' | 'history' | 'drafts' | 'pending' | 'exhausted' | null;
@@ -33,7 +33,7 @@ const columns: Column<ServiceRequest>[] = [
     key: 'user',
     header: 'User',
     render: (row) => (
-      <span className="text-xs text-gray-700">{truncateId(row.userId, 12)}</span>
+      <span className="text-xs text-gray-700">{displayRef(row.userId as string, 'email')}</span>
     ),
     hideOnMobile: true,
   },

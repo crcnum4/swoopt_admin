@@ -7,7 +7,7 @@ import { useServiceRequestDetail } from '@/lib/hooks/use-service-request-detail'
 import { StatusBadge } from '@/components/data/status-badge';
 import { DataTable, type Column } from '@/components/data/data-table';
 import { RerouteDialog } from '@/components/requests/reroute-dialog';
-import { truncateId, formatRelativeTime, formatCents } from '@/lib/utils';
+import { truncateId, formatRelativeTime, formatCents, displayRef } from '@/lib/utils';
 import type { RankedProvider } from '@/types/service-request';
 import type { Offer } from '@/types/offer';
 
@@ -28,8 +28,8 @@ const OFFER_COLORS: Record<string, { bg: string; text: string }> = {
 const providerColumns: Column<RankedProvider>[] = [
   {
     key: 'orgId',
-    header: 'Org ID',
-    render: (row) => <span className="font-mono text-xs text-gray-600">{truncateId(row.orgId)}</span>,
+    header: 'Provider',
+    render: (row) => <span className="text-xs text-gray-700">{displayRef(row.orgId as string, 'name')}</span>,
   },
   {
     key: 'matchScore',
@@ -66,8 +66,8 @@ const providerColumns: Column<RankedProvider>[] = [
 const offerColumns: Column<Offer>[] = [
   {
     key: 'orgId',
-    header: 'Org ID',
-    render: (row) => <span className="font-mono text-xs text-gray-600">{truncateId(row.orgId)}</span>,
+    header: 'Provider',
+    render: (row) => <span className="text-xs text-gray-700">{displayRef(row.orgId as string, 'name')}</span>,
   },
   {
     key: 'status',
@@ -196,7 +196,7 @@ export default function RequestDetailPage() {
             </button>
           </div>
           <p className="text-sm text-gray-500 mt-1">
-            User: <span className="font-mono">{truncateId(req.userId, 16)}</span>
+            User: <span className="font-mono">{displayRef(req.userId as string, 'email')}</span>
           </p>
         </div>
 

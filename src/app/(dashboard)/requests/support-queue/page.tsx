@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useSupportQueue } from '@/lib/hooks/use-support-queue';
 import { DataTable, type Column } from '@/components/data/data-table';
 import { AgeBadge } from '@/components/data/age-badge';
-import { truncateId } from '@/lib/utils';
+import { truncateId, displayRef } from '@/lib/utils';
 import type { ServiceRequest } from '@/types/service-request';
 
 const columns: Column<ServiceRequest>[] = [
@@ -20,7 +20,7 @@ const columns: Column<ServiceRequest>[] = [
     key: 'user',
     header: 'User',
     render: (row) => (
-      <span className="text-xs text-gray-700">{truncateId(row.userId, 12)}</span>
+      <span className="text-xs text-gray-700">{displayRef(row.userId as string, 'email')}</span>
     ),
     hideOnMobile: true,
   },
