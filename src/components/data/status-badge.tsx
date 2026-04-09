@@ -37,6 +37,19 @@ const STATUS_LABELS: Record<string, string> = {
   partially_refunded: 'Partial Refund',
   refunded: 'Refunded',
   failed: 'Failed',
+  // Organization statuses
+  active: 'Active',
+  inactive: 'Inactive',
+  pending_verification: 'Pending Verification',
+  pending_deletion: 'Pending Deletion',
+  blocked: 'Blocked',
+  // Verification statuses
+  approved: 'Approved',
+  rejected: 'Rejected',
+  // Verification types
+  verified: 'Verified',
+  insured: 'Insured',
+  licensed: 'Licensed',
 };
 
 export function StatusBadge({ status, label, colorMap }: StatusBadgeProps) {

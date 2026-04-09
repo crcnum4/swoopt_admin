@@ -90,6 +90,16 @@ const STATUS_COLORS: Record<string, { bg: string; text: string }> = {
   draft: { bg: '#FEF3C7', text: '#D97706' },
   parsing: { bg: '#FEF3C7', text: '#D97706' },
   followup_needed: { bg: '#FEF3C7', text: '#D97706' },
+  // Organization statuses
+  active: { bg: '#6FFFE920', text: '#0D7377' },
+  inactive: { bg: '#F3F4F6', text: '#6B7280' },
+  pending_verification: { bg: '#FEF3C7', text: '#D97706' },
+  pending_deletion: { bg: '#FF6B6B15', text: '#FF6B6B' },
+  blocked: { bg: '#FF6B6B15', text: '#FF6B6B' },
+  // Verification statuses
+  pending: { bg: '#FEF3C7', text: '#D97706' },
+  approved: { bg: '#6FFFE920', text: '#0D7377' },
+  rejected: { bg: '#FF6B6B15', text: '#FF6B6B' },
 };
 
 export function getStatusColor(status: string): { bg: string; text: string } {

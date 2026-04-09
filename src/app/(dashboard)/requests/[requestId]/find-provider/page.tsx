@@ -307,14 +307,13 @@ export default function FindProviderPage() {
             </div>
 
             <div className="mt-4">
-              <button
-                disabled
-                className="inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-medium text-gray-400 bg-gray-100 cursor-not-allowed"
-                title="Coming in Phase 3"
+              <Link
+                href={`/providers/onboard?serviceRequestId=${requestId}`}
+                className="inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-medium text-white hover:opacity-90 transition-opacity"
+                style={{ backgroundColor: '#4B3F72' }}
               >
                 Onboard &amp; Send Offer
-                <span className="text-[10px] bg-gray-200 rounded px-1.5 py-0.5">Phase 3</span>
-              </button>
+              </Link>
             </div>
           </div>
         </div>
