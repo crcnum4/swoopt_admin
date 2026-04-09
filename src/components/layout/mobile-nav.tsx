@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { useAuth } from '@/lib/auth';
+import { useExhaustedCount } from '@/lib/hooks/use-exhausted-count';
 
 const BRAND = { indigo: '#4B3F72', mint: '#6FFFE9', coral: '#FF6B6B' };
 
@@ -45,6 +46,7 @@ export function MobileNav() {
   const pathname = usePathname();
   const { user, logout } = useAuth();
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const { data: exhaustedCount = 0 } = useExhaustedCount();
 
   const isActive = (href: string) => {
     if (href === '/') return pathname === '/';
@@ -66,7 +68,17 @@ export function MobileNav() {
                 className="flex flex-col items-center justify-center gap-1 px-2 py-1 min-w-[56px]"
                 style={{ color: active ? BRAND.mint : '#9CA3AF' }}
               >
-                <MobileIcon name={item.icon} />
+                <div className="relative">
+                  <MobileIcon name={item.icon} />
+                  {item.href === '/requests/support-queue' && exhaustedCount > 0 && (
+                    <span
+                      className="absolute -top-1 -right-2 h-3.5 min-w-[14px] rounded-full text-[8px] font-bold text-white flex items-center justify-center px-0.5"
+                      style={{ backgroundColor: BRAND.coral }}
+                    >
+                      {exhaustedCount > 9 ? '9+' : exhaustedCount}
+                    </span>
+                  )}
+                </div>
                 <span className="text-[10px] leading-none">{item.label}</span>
               </Link>
             );
