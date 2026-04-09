@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { useAuth } from '@/lib/auth';
+import { useExhaustedCount } from '@/lib/hooks/use-exhausted-count';
 
 const BRAND = {
   indigo: '#4B3F72',
@@ -61,6 +62,7 @@ export function Sidebar() {
   const pathname = usePathname();
   const { user, logout } = useAuth();
   const [collapsed, setCollapsed] = useState(false);
+  const { data: exhaustedCount = 0 } = useExhaustedCount();
 
   const isActive = (href: string) => {
     if (href === '/') return pathname === '/';
@@ -110,8 +112,30 @@ export function Sidebar() {
                   style={active ? { color: BRAND.indigo, backgroundColor: `${BRAND.mint}15`, borderLeft: `3px solid ${BRAND.mint}` } : undefined}
                   title={collapsed ? item.label : undefined}
                 >
-                  <NavIcon name={item.icon} />
-                  {!collapsed && <span className="truncate">{item.label}</span>}
+                  <div className="relative">
+                    <NavIcon name={item.icon} />
+                    {collapsed && item.href === '/requests/support-queue' && exhaustedCount > 0 && (
+                      <span
+                        className="absolute -top-1.5 -right-1.5 h-3.5 w-3.5 rounded-full text-[8px] font-bold text-white flex items-center justify-center"
+                        style={{ backgroundColor: BRAND.coral }}
+                      >
+                        {exhaustedCount > 9 ? '9+' : exhaustedCount}
+                      </span>
+                    )}
+                  </div>
+                  {!collapsed && (
+                    <span className="flex-1 flex items-center justify-between truncate">
+                      {item.label}
+                      {item.href === '/requests/support-queue' && exhaustedCount > 0 && (
+                        <span
+                          className="ml-2 rounded-full px-1.5 py-0.5 text-[10px] font-bold text-white leading-none"
+                          style={{ backgroundColor: BRAND.coral }}
+                        >
+                          {exhaustedCount}
+                        </span>
+                      )}
+                    </span>
+                  )}
                 </Link>
               </li>
             );

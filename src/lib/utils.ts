@@ -46,3 +46,58 @@ export function formatRelativeTime(date: string): string {
 export function cn(...classes: (string | boolean | undefined | null)[]): string {
   return classes.filter(Boolean).join(' ');
 }
+
+/**
+ * Truncate a MongoDB ObjectId for display.
+ */
+export function truncateId(id: string, length = 8): string {
+  if (id.length <= length) return id;
+  return id.slice(0, length) + '…';
+}
+
+/**
+ * Status color mapping for ServiceRequestStatus.
+ */
+const STATUS_COLORS: Record<string, { bg: string; text: string }> = {
+  // Active
+  routing: { bg: '#4B3F7215', text: '#4B3F72' },
+  offering: { bg: '#4B3F7215', text: '#4B3F72' },
+  user_accepted: { bg: '#4B3F7215', text: '#4B3F72' },
+  in_progress: { bg: '#4B3F7215', text: '#4B3F72' },
+  // Success
+  completed: { bg: '#6FFFE920', text: '#0D7377' },
+  rated: { bg: '#6FFFE920', text: '#0D7377' },
+  // History
+  cancelled: { bg: '#F3F4F6', text: '#6B7280' },
+  expired: { bg: '#F3F4F6', text: '#6B7280' },
+  user_denied: { bg: '#F3F4F6', text: '#6B7280' },
+  // Exhausted
+  exhausted: { bg: '#FF6B6B15', text: '#FF6B6B' },
+  // Pending
+  draft: { bg: '#FEF3C7', text: '#D97706' },
+  parsing: { bg: '#FEF3C7', text: '#D97706' },
+  followup_needed: { bg: '#FEF3C7', text: '#D97706' },
+};
+
+export function getStatusColor(status: string): { bg: string; text: string } {
+  return STATUS_COLORS[status] ?? { bg: '#F3F4F6', text: '#6B7280' };
+}
+
+/**
+ * Build a Google Maps search URL centered on lat/lng for external provider lookup.
+ * Falls back to text-based Google search if no coordinates provided.
+ */
+export function buildGoogleSearchUrl(
+  serviceType: string,
+  city: string,
+  state: string,
+  lat?: number | null,
+  lng?: number | null,
+): string {
+  const query = encodeURIComponent(serviceType);
+  if (lat != null && lng != null) {
+    return `https://www.google.com/maps/search/${query}/@${lat},${lng},14z`;
+  }
+  const textQuery = `${serviceType} near ${city}, ${state}`;
+  return `https://www.google.com/search?q=${encodeURIComponent(textQuery)}`;
+}

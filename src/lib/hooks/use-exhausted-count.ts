@@ -1,0 +1,16 @@
+import { useQuery } from '@tanstack/react-query';
+import { api } from '@/lib/api';
+import type { DashboardStats } from '@/types/dashboard';
+
+export function useExhaustedCount() {
+  return useQuery({
+    queryKey: ['dashboard', 'stats'],
+    queryFn: async () => {
+      const { data, error } = await api.get<DashboardStats>('/admin/dashboard/stats');
+      if (error || !data) throw new Error(error || 'Failed to fetch stats');
+      return data;
+    },
+    select: (data) => data.serviceRequests.byStatus.exhausted ?? 0,
+    refetchInterval: 30_000,
+  });
+}

@@ -17,6 +17,13 @@ const PAGE_TITLES: Record<string, string> = {
 
 function getPageTitle(pathname: string): string {
   if (PAGE_TITLES[pathname]) return PAGE_TITLES[pathname];
+
+  // Dynamic route patterns
+  if (/^\/requests\/[^/]+\/find-provider$/.test(pathname)) return 'Find Provider';
+  if (/^\/requests\/[^/]+$/.test(pathname)) return 'Request Detail';
+  if (/^\/providers\/[^/]+$/.test(pathname)) return 'Provider Detail';
+  if (/^\/users\/[^/]+$/.test(pathname)) return 'User Detail';
+
   const segments = pathname.split('/').filter(Boolean);
   if (segments.length >= 2) {
     const parentPath = '/' + segments[0];
