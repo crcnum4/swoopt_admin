@@ -50,6 +50,14 @@ const STATUS_LABELS: Record<string, string> = {
   verified: 'Verified',
   insured: 'Insured',
   licensed: 'Licensed',
+  // Transaction types
+  standard: 'Standard',
+  medical_hold: 'Medical Hold',
+  legal_exempt: 'Legal Exempt',
+  // Payout statuses
+  held: 'Held',
+  claimable: 'Claimable',
+  processing: 'Processing',
 };
 
 export function StatusBadge({ status, label, colorMap }: StatusBadgeProps) {

@@ -100,6 +100,16 @@ const STATUS_COLORS: Record<string, { bg: string; text: string }> = {
   pending: { bg: '#FEF3C7', text: '#D97706' },
   approved: { bg: '#6FFFE920', text: '#0D7377' },
   rejected: { bg: '#FF6B6B15', text: '#FF6B6B' },
+  // Transaction types
+  standard: { bg: '#4B3F7215', text: '#4B3F72' },
+  medical_hold: { bg: '#FEF3C7', text: '#D97706' },
+  legal_exempt: { bg: '#7C3AED15', text: '#7C3AED' },
+  // Transaction statuses (hold, charged, refunded, failed already covered above)
+  partially_refunded: { bg: '#FEF3C7', text: '#D97706' },
+  // Payout statuses
+  held: { bg: '#FEF3C7', text: '#D97706' },
+  claimable: { bg: '#4B3F7215', text: '#4B3F72' },
+  processing: { bg: '#4B3F7215', text: '#4B3F72' },
 };
 
 export function getStatusColor(status: string): { bg: string; text: string } {

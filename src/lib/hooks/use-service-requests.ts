@@ -8,6 +8,7 @@ type StatusGroup = 'active' | 'history' | 'drafts' | 'pending' | 'exhausted' | n
 interface UseServiceRequestsParams {
   statusGroup?: StatusGroup;
   search?: string;
+  userId?: string;
 }
 
 function getStatusParam(group: StatusGroup): string | undefined {
@@ -22,15 +23,16 @@ interface ServiceRequestsResponse {
   serviceRequests: ServiceRequest[];
 }
 
-export function useServiceRequests({ statusGroup = null, search = '' }: UseServiceRequestsParams = {}) {
+export function useServiceRequests({ statusGroup = null, search = '', userId }: UseServiceRequestsParams = {}) {
   return useInfiniteQuery({
-    queryKey: ['service-requests', 'list', statusGroup, search],
+    queryKey: ['service-requests', 'list', statusGroup, search, userId],
     queryFn: async ({ pageParam }) => {
       const params = new URLSearchParams();
       params.set('limit', '20');
       const statusParam = getStatusParam(statusGroup);
       if (statusParam) params.set('status', statusParam);
       if (search) params.set('search', search);
+      if (userId) params.set('userId', userId);
       if (pageParam) params.set('cursor', pageParam);
 
       const { data, meta, error } = await api.getPaginated<ServiceRequestsResponse>(

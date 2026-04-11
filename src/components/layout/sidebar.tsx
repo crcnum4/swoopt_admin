@@ -21,6 +21,7 @@ const NAV_ITEMS = [
   { href: '/verification', label: 'Verification', icon: 'shield' },
   { href: '/transactions', label: 'Transactions', icon: 'dollar' },
   { href: '/analytics', label: 'Analytics', icon: 'chart' },
+  { href: '/audit-log', label: 'Audit Log', icon: 'clipboard' },
 ];
 
 function NavIcon({ name }: { name: string }) {
@@ -53,6 +54,8 @@ function NavIcon({ name }: { name: string }) {
       return <svg {...props}><circle cx="12" cy="12" r="10" /><line x1="12" y1="6" x2="12" y2="18" /><path d="M15 9.5c0-1.38-1.34-2.5-3-2.5s-3 1.12-3 2.5 1.34 2.5 3 2.5 3 1.12 3 2.5-1.34 2.5-3 2.5" /></svg>;
     case 'chart':
       return <svg {...props}><line x1="18" y1="20" x2="18" y2="10" /><line x1="12" y1="20" x2="12" y2="4" /><line x1="6" y1="20" x2="6" y2="14" /></svg>;
+    case 'clipboard':
+      return <svg {...props}><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" /><rect x="8" y="2" width="8" height="4" rx="1" /><line x1="8" y1="10" x2="16" y2="10" /><line x1="8" y1="14" x2="12" y2="14" /></svg>;
     default:
       return null;
   }
