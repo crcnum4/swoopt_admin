@@ -7,6 +7,7 @@ import { useUserDetail } from '@/lib/hooks/use-user-detail';
 import { useUserBan } from '@/lib/hooks/use-user-ban';
 import { useUserCredits } from '@/lib/hooks/use-user-credits';
 import { useServiceRequests } from '@/lib/hooks/use-service-requests';
+import { api } from '@/lib/api';
 import { StatusBadge } from '@/components/data/status-badge';
 import { DataTable, type Column } from '@/components/data/data-table';
 import { ConfirmDialog } from '@/components/data/confirm-dialog';
@@ -72,6 +73,21 @@ export default function UserDetailPage() {
   const [banReason, setBanReason] = useState('');
   const [creditAmount, setCreditAmount] = useState('');
   const [creditReason, setCreditReason] = useState('');
+  const [verifying, setVerifying] = useState(false);
+
+  const handleVerifyEmail = async () => {
+    setVerifying(true);
+    try {
+      const { error: apiError } = await api.put(`/admin/users/${userId}/force-verify-email`, {});
+      if (apiError) throw new Error(apiError);
+      toast('Email verified', 'success');
+      refetch();
+    } catch (err) {
+      toast(err instanceof Error ? err.message : 'Failed to verify email', 'error');
+    } finally {
+      setVerifying(false);
+    }
+  };
 
   const handleBanToggle = () => {
     if (!user) return;
@@ -157,7 +173,23 @@ export default function UserDetailPage() {
         <div className="divide-y divide-gray-100">
           <InfoRow label="Email" value={user.email} />
           <InfoRow label="Phone" value={user.phone} />
-          <InfoRow label="Email Verified" value={user.emailVerifiedAt ? new Date(user.emailVerifiedAt).toLocaleDateString() : 'No'} />
+          <InfoRow label="Email Verified" value={
+            user.emailVerifiedAt
+              ? new Date(user.emailVerifiedAt).toLocaleDateString()
+              : (
+                <div className="flex items-center gap-2">
+                  <span className="text-gray-500">No</span>
+                  <button
+                    onClick={handleVerifyEmail}
+                    disabled={verifying}
+                    className="rounded px-2 py-0.5 text-xs font-medium text-white hover:opacity-90 disabled:opacity-50"
+                    style={{ backgroundColor: '#4B3F72' }}
+                  >
+                    {verifying ? 'Verifying…' : 'Verify Now'}
+                  </button>
+                </div>
+              )
+          } />
           <InfoRow label="Platform Admin" value={user.platformAdmin ? 'Yes' : 'No'} />
           <InfoRow label="Credit Balance" value={<span className="font-semibold" style={{ color: '#4B3F72' }}>{formatCents(user.creditBalanceCents ?? 0)}</span>} />
           <InfoRow label="Rating" value={
